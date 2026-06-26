@@ -55,12 +55,16 @@ func uploadHandler(uploadDir, apiKey, jellyfinURL, jellyfinKey string) http.Hand
 			return
 		}
 
-		year := releaseYear(details.ReleaseDate)
 		var dirName string
-		if year != "" {
-			dirName = sanitizeDirName(fmt.Sprintf("%s (%s)", details.Title, year))
+		if custom := r.URL.Query().Get("dirname"); custom != "" {
+			dirName = sanitizeDirName(custom)
 		} else {
-			dirName = sanitizeDirName(details.Title)
+			year := releaseYear(details.ReleaseDate)
+			if year != "" {
+				dirName = sanitizeDirName(fmt.Sprintf("%s (%s)", details.Title, year))
+			} else {
+				dirName = sanitizeDirName(details.Title)
+			}
 		}
 
 		targetDir := filepath.Join(uploadDir, dirName)

@@ -36,6 +36,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /upload", uploadHandler(uploadDir, apiKey, jellyfinURL, jellyfinKey))
 	mux.HandleFunc("GET /search", searchHandler(apiKey))
+	mux.HandleFunc("GET /validate", validateHandler())
 
 	fmt.Printf("mupload listening on %s\n", addr)
 	log.Fatal(http.ListenAndServe(addr, mux))
