@@ -7,8 +7,9 @@ import (
 )
 
 type validateResponse struct {
-	Dirname string `json:"dirname"`
-	Valid   bool   `json:"valid"`
+	Dirname   string `json:"dirname"`
+	Sanitized string `json:"sanitized"`
+	Valid     bool   `json:"valid"`
 }
 
 func validateHandler() http.HandlerFunc {
@@ -21,8 +22,9 @@ func validateHandler() http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(validateResponse{
-			Dirname: dirname,
-			Valid:   valid,
+			Dirname:   dirname,
+			Sanitized: sanitizeDirName(dirname),
+			Valid:     valid,
 		})
 	}
 }
